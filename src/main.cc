@@ -15,6 +15,9 @@ void PrintSignature() {
 
 int main(int argc, char**args) {
     PrintSignature();
-    Document* document = new YamlDocument("grammar.yml");
+    Document* document = new YamlDocument(
+            "grammar.yml"
+            //"wrong.yml"
+    );
     delete document;
 }

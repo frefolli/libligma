@@ -1,7 +1,3 @@
-lexer:
-  - ID
-  - "*"
-  - "-"
 parser:
   - Expr
   - Term
@@ -15,5 +11,4 @@ grammar:
     - Factor
   Factor:
     - ID
-options:
-  start: Expr
+start: Expr
