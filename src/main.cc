@@ -1,4 +1,5 @@
 #include <iostream>
+#include <libligma/yaml_document.hh>
 
 void PrintSignature() {
     std::cout << THE_PROJECT << " " <<
@@ -14,4 +15,6 @@ void PrintSignature() {
 
 int main(int argc, char**args) {
     PrintSignature();
+    Document* document = new YamlDocument("grammar.yml");
+    delete document;
 }

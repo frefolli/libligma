@@ -28,25 +28,20 @@ add_project_arguments('-DTHE_BRANCH="@0@"'.format(THE_BRANCH), language : 'cpp')
 add_project_arguments('-DTHE_VERSION="@0@"'.format(THE_VERSION), language : 'cpp')
 add_project_arguments('-DTHE_PROJECT="@0@"'.format(THE_PROJECT), language : 'cpp')
 
-# Future Dependencies
-liblexer_dep = dependency(
-  'liblexer',
-  fallback: ['liblexer', 'liblexer_dep'],
-  version: 'master',
-)
-
+libyaml_dep = dependency('yaml-cpp')
 include = include_directories('include')
 
-libligma = executable('libligma', [
-    'src/libligma/.cc',
+libligma = library('libligma', [
+    'src/libligma/document.cc',
+    'src/libligma/yaml_document.cc',
   ], include_directories : include,
-  dependencies: [])
+  dependencies: [libyaml_dep])
 
 main = executable('main.exe', [
     'src/main.cc',
   ], include_directories : include,
-  dependencies: [liblexer_dep])
+  link_with: [libligma])
 
 libligma_dep = declare_dependency(
-  include_directories : include),
-  link_with : libligma
+  include_directories : include,
+  link_with : libligma)

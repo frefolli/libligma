@@ -1,0 +1,18 @@
+lexer:
+  - ID
+  - "*"
+  - "-"
+parser:
+  - Expr
+  - Term
+  - Factor
+grammar:
+  Expr:
+    - Term - Expr
+    - Term
+  Term:
+    - Factor * Term
+    - Factor
+  Factor:
+    - ID
+start: Expr
