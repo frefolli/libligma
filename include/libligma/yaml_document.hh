@@ -6,13 +6,16 @@ class YamlDocument : public Document {
     private:
         YAML::Node expectSequence(YAML::Node node, std::string name);
         YAML::Node expectMap(YAML::Node node, std::string name);
-        YAML::Node expectString(YAML::Node node, std::string name);
-        YAML::Node doc;
+        YAML::Node expectKey(YAML::Node node, std::string name);
+        std::string expectString(YAML::Node node);
+        
         void readFile();
         void readLexer();
         void readParser();
         void readGrammar();
         void readOptions();
+        
+        YAML::Node doc;
     public:
         YamlDocument(std::string filepath);
         ~YamlDocument();
