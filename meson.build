@@ -28,6 +28,12 @@ add_project_arguments('-DTHE_BRANCH="@0@"'.format(THE_BRANCH), language : 'cpp')
 add_project_arguments('-DTHE_VERSION="@0@"'.format(THE_VERSION), language : 'cpp')
 add_project_arguments('-DTHE_PROJECT="@0@"'.format(THE_PROJECT), language : 'cpp')
 
+libutils_dep = dependency(
+  'libutils',
+  fallback: ['libutils', 'libutils_dep'],
+  version: 'master',
+)
+
 libyaml_dep = dependency('yaml-cpp')
 include = include_directories('include')
 
@@ -35,7 +41,7 @@ libligma = library('libligma', [
     'src/libligma/document.cc',
     'src/libligma/yaml_document.cc',
   ], include_directories : include,
-  dependencies: [libyaml_dep])
+  dependencies: [libyaml_dep, libutils_dep])
 
 main = executable('main.exe', [
     'src/main.cc',

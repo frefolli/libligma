@@ -4,9 +4,9 @@
 #include <yaml-cpp/yaml.h>
 class YamlDocument : public Document {
     private:
-        YAML::Node expectSequence(YAML::Node node, std::string name);
-        YAML::Node expectMap(YAML::Node node, std::string name);
         YAML::Node expectKey(YAML::Node node, std::string name);
+        YAML::Node expectSequence(YAML::Node node);
+        YAML::Node expectMap(YAML::Node node);
         std::string expectString(YAML::Node node);
         
         void readFile();

@@ -1,3 +1,4 @@
+#include <libutils/strings.hh>
 #include <libligma/yaml_document.hh>
 #include <fstream>
 #include <yaml-cpp/yaml.h>
@@ -22,28 +23,26 @@ YamlDocument::YamlDocument(std::string filepath) :
 
 YamlDocument::~YamlDocument() {}
 
-YAML::Node YamlDocument::expectSequence(YAML::Node node, std::string name) {
-    YAML::Node sequence = node[name];
-    if (!sequence.IsSequence()) {
-        throw std::runtime_error("in \"" + filepath + "\" expected a sequence " + name + "");
-    }
-    return sequence;
-}
-
-YAML::Node YamlDocument::expectMap(YAML::Node node, std::string name) {
-    YAML::Node map = node[name];
-    if (!map.IsMap()) {
-        throw std::runtime_error("in \"" + filepath + "\" expected a map " + name + "");
-    }
-    return map;
-}
-
 YAML::Node YamlDocument::expectKey(YAML::Node node, std::string name) {
     YAML::Node value = node[name];
     if (! value.IsDefined()) {
         throw std::runtime_error("in \"" + filepath + "\" expected a key \"" + name + "\", got: " + toString(node));
     }
     return value;
+}
+
+YAML::Node YamlDocument::expectSequence(YAML::Node node) {
+    if (!node.IsSequence()) {
+        throw std::runtime_error("in \"" + filepath + "\" expected a sequence, got: " + toString(node));
+    }
+    return node;
+}
+
+YAML::Node YamlDocument::expectMap(YAML::Node node) {
+    if (!node.IsMap()) {
+        throw std::runtime_error("in \"" + filepath + "\" expected a map, got: " + toString(node));
+    }
+    return node;
 }
 
 std::string YamlDocument::expectString(YAML::Node node) {
@@ -62,7 +61,7 @@ void YamlDocument::readFile() {
 }
 
 void YamlDocument::readLexer() {
-    YAML::Node lexer = expectSequence(doc, "lexer");
+    YAML::Node lexer = expectSequence(expectKey(doc, "lexer"));
     for (auto it = lexer.begin(); it != lexer.end(); ++it) {
         std::string token = expectString(*it);
         std::cout << "found token: " << token << std::endl;
@@ -70,7 +69,7 @@ void YamlDocument::readLexer() {
 }
 
 void YamlDocument::readParser() {
-    YAML::Node parser = expectSequence(doc, "parser");
+    YAML::Node parser = expectSequence(expectKey(doc, "parser"));
     for (auto it = parser.begin(); it != parser.end(); ++it) {
         std::string symbol = expectString(*it);
         std::cout << "found symbol: " << symbol << std::endl;
@@ -78,14 +77,19 @@ void YamlDocument::readParser() {
 }
 
 void YamlDocument::readGrammar() {
-    YAML::Node grammar = expectMap(doc, "grammar");
+    YAML::Node grammar = expectMap(expectKey(doc, "grammar"));
     std::cout << "found grammar: " << grammar << std::endl;
     for (auto it = grammar.begin(); it != grammar.end(); ++it) {
-        std::cout << "found production: " << *it << std::endl;
+        std::string left = expectString(it->first);
+        YAML::Node rights = expectSequence(it->second);
+        for (auto pIt = rights.begin(); pIt != rights.end(); ++pIt) {
+            std::vector<std::string> right = tokenizeString(expectString(*pIt));
+            std::cout << "found production: " << left << ": " << right << std::endl;
+        }
     }
 }
 
 void YamlDocument::readOptions () {
-    YAML::Node options = expectMap(doc, "options");
+    YAML::Node options = expectMap(expectKey(doc, "options"));
     std::cout << "start symbol: " << expectString(expectKey(options, "start")) << std::endl;
 }

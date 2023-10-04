@@ -1,0 +1,4 @@
+[wrap-git]
+directory = libutils.git
+url = git@github.com:frefolli/libutils.git
+revision = master
