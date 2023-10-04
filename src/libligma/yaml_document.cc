@@ -1,10 +1,12 @@
 #include <libutils/strings.hh>
+#include <libutils/vectors.hh>
 #include <libligma/yaml_document.hh>
 #include <fstream>
 #include <yaml-cpp/yaml.h>
 #include <iostream>
 #include <filesystem>
 #include <sstream>
+#include <algorithm>
 
 std::string toString(YAML::Node node) {
     std::ostringstream out ("");
@@ -64,7 +66,7 @@ void YamlDocument::readLexer() {
     YAML::Node lexer = expectSequence(expectKey(doc, "lexer"));
     for (auto it = lexer.begin(); it != lexer.end(); ++it) {
         std::string token = expectString(*it);
-        std::cout << "found token: " << token << std::endl;
+        symbols.push_back(Symbol(token, true));
     }
 }
 
@@ -72,24 +74,37 @@ void YamlDocument::readParser() {
     YAML::Node parser = expectSequence(expectKey(doc, "parser"));
     for (auto it = parser.begin(); it != parser.end(); ++it) {
         std::string symbol = expectString(*it);
-        std::cout << "found symbol: " << symbol << std::endl;
+        symbols.push_back(Symbol(symbol, false));
     }
+}
+
+index_t YamlDocument::identifySymbol(std::string name) {
+    auto it = std::find_if(symbols.begin(),
+                        symbols.end(),
+                        [&name](Symbol& symbol) {
+                            return symbol.getName() == name;
+    });
+    if (it == symbols.end())
+        throw std::runtime_error("in \"" + filepath + "\", undefined symbol: " + name);
+    return std::distance(symbols.begin(), it);
 }
 
 void YamlDocument::readGrammar() {
     YAML::Node grammar = expectMap(expectKey(doc, "grammar"));
-    std::cout << "found grammar: " << grammar << std::endl;
     for (auto it = grammar.begin(); it != grammar.end(); ++it) {
-        std::string left = expectString(it->first);
+        index_t left = identifySymbol(expectString(it->first));
         YAML::Node rights = expectSequence(it->second);
         for (auto pIt = rights.begin(); pIt != rights.end(); ++pIt) {
-            std::vector<std::string> right = tokenizeString(expectString(*pIt));
-            std::cout << "found production: " << left << ": " << right << std::endl;
+            std::vector<index_t> right = {};
+            for (std::string name : tokenizeString(expectString(*pIt), " ")) {
+                right.push_back(identifySymbol(name));
+            }
+            this->grammar.push_back(Production(left, right));
         }
     }
 }
 
 void YamlDocument::readOptions () {
     YAML::Node options = expectMap(expectKey(doc, "options"));
-    std::cout << "start symbol: " << expectString(expectKey(options, "start")) << std::endl;
+    startSymbol = identifySymbol(expectString(expectKey(options, "start")));
 }

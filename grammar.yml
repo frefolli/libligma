@@ -1,17 +1,17 @@
 lexer:
   - ID
-  - "*"
-  - "-"
+  - ADD
+  - MINUS
 parser:
   - Expr
   - Term
   - Factor
 grammar:
   Expr:
-    - Term - Expr
+    - Term MINUS Expr
     - Term
   Term:
-    - Factor * Term
+    - Factor ADD Term
     - Factor
   Factor:
     - ID

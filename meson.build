@@ -40,6 +40,8 @@ include = include_directories('include')
 libligma = library('libligma', [
     'src/libligma/document.cc',
     'src/libligma/yaml_document.cc',
+    'src/libligma/symbol.cc',
+    'src/libligma/production.cc',
   ], include_directories : include,
   dependencies: [libyaml_dep, libutils_dep])
 
