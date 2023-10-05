@@ -3,7 +3,7 @@
 Asset::Asset(std::vector<Symbol> symbols,
              std::vector<Production> grammar,
              index_t target) :
-    symbols(symbols), grammar(grammar), targetSymbol() {}
+    symbols(symbols), grammar(grammar), target(target) {}
 
 void Asset::build() {
     // Adds needed symbols
@@ -22,6 +22,6 @@ void Asset::printFirstSet() {
     firstSet.print(symbols);
 }
 
-void Asset::printFolloweSet() {
+void Asset::printFollowSet() {
     followSet.print(symbols);
 }

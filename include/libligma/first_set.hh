@@ -1,7 +1,7 @@
 #ifndef LIBLIGMA_FIRST_SET_HH
 #define LIBLIGMA_FIRST_SET_HH
 #include <libligma/symbol.hh>
-#include <libligma/grammar.hh>
+#include <libligma/production.hh>
 #include <vector>
 #include <set>
 #include <map>

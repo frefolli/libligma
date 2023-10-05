@@ -19,5 +19,5 @@ class Symbol {
 std::ostream& operator<<(std::ostream& out, Symbol& symbol);
 index_t getStart(std::vector<Symbol>& symbols);
 index_t getEOL(std::vector<Symbol>& symbols);
-index_t getEpilon(std::vector<Symbol>& symbols);
+index_t getEpsilon(std::vector<Symbol>& symbols);
 #endif

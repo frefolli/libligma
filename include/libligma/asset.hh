@@ -1,7 +1,7 @@
 #ifndef LIBLIGMA_ASSET_HH
 #define LIBLIGMA_ASSET_HH
 #include <libligma/symbol.hh>
-#include <libligma/grammar.hh>
+#include <libligma/production.hh>
 #include <vector>
 #include <libligma/first_set.hh>
 #include <libligma/follow_set.hh>
@@ -17,6 +17,7 @@ class Asset {
               std::vector<Production> grammar,
               index_t target);
 
+        void build();
         void printFirstSet();
         void printFollowSet();
 };

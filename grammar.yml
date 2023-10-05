@@ -16,4 +16,4 @@ grammar:
   Factor:
     - ID
 options:
-  start: Expr
+  target: Expr

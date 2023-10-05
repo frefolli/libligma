@@ -25,7 +25,7 @@ YamlDocument::YamlDocument(std::string filepath) :
 }
 
 YamlDocument::~YamlDocument() {
-    if (aset != nullptr)
+    if (asset != nullptr)
         delete asset;
 }
 
@@ -116,11 +116,12 @@ void YamlDocument::readOptions () {
 
 void YamlDocument::buildAsset() {
     asset = new Asset(symbols, grammar, target);
+    asset->build();
 }
 
 void YamlDocument::printAsset() {
     if (asset != nullptr) {
-        asset->printFirst();
-        asset->printFollow();
+        asset->printFirstSet();
+        asset->printFollowSet();
     }
 }

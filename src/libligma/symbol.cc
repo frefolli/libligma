@@ -18,13 +18,13 @@ std::ostream& operator<<(std::ostream& out, Symbol& symbol) {
 }
 
 index_t getStart(std::vector<Symbol>& symbols) {
-    return symbols.at(symbols.size() - 3);
+    return (symbols.size() - 3);
 }
 
 index_t getEOL(std::vector<Symbol>& symbols) {
-    return symbols.at(symbols.size() - 2);
+    return (symbols.size() - 2);
 }
 
-index_t getEpilon(std::vector<Symbol>& symbols) {
-    return symbols.at(symbols.size() - 1);
+index_t getEpsilon(std::vector<Symbol>& symbols) {
+    return (symbols.size() - 1);
 }

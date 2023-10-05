@@ -1,4 +1,6 @@
 #include <libligma/first_set.hh>
+#include <libutils/sets.hh>
+#include <iostream>
 
 FirstSet::FirstSet() {}
 
@@ -6,7 +8,7 @@ void FirstSet::build(std::vector<Symbol>& symbols,
                      std::vector<Production>& grammar) {
     index_t epsilon = getEpsilon(symbols);
     for (index_t i = 0; i < symbols.size(); i++) {
-        if (symbols[i].isTerminal)
+        if (symbols[i].isTerminal())
             set[i] = {i};
         else
             set[i] = {};
@@ -30,7 +32,7 @@ void FirstSet::build(std::vector<Symbol>& symbols,
             }
 
             if ((i == Bs.size()) &&
-                (set_in(set[Bs.back()]))) {
+                (set_in(set[Bs.back()], epsilon))) {
                 changed |= set_union(set[A], {epsilon});
             }
         }
@@ -39,12 +41,13 @@ void FirstSet::build(std::vector<Symbol>& symbols,
 
 void FirstSet::print(std::vector<Symbol>& symbols) {
     for (index_t i = 0; i < symbols.size(); i++) {
-        std::cout << "FIRST[" << symbols[i].getName() << "] = {";
+        std::cout << "FIRST[\"" << symbols[i].getName() << "\"] = {";
         for (auto sIt = set[i].begin(); sIt != set[i].end(); sIt++) {
             if (sIt != set[i].begin()) {
                 std::cout << ", ";
             }
-            std::cout << "\"" << sIt->getName() << "\"";
+            std::cout << "\"" << symbols[*sIt].getName() << "\"";
         }
+        std::cout << "}" << std::endl;
     }
 }
