@@ -16,3 +16,15 @@ std::ostream& operator<<(std::ostream& out, Symbol& symbol) {
     out << symbol.getName();
     return out;
 }
+
+index_t getStart(std::vector<Symbol>& symbols) {
+    return symbols.at(symbols.size() - 3);
+}
+
+index_t getEOL(std::vector<Symbol>& symbols) {
+    return symbols.at(symbols.size() - 2);
+}
+
+index_t getEpilon(std::vector<Symbol>& symbols) {
+    return symbols.at(symbols.size() - 1);
+}

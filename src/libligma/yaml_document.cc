@@ -21,9 +21,13 @@ YamlDocument::YamlDocument(std::string filepath) :
     readParser();
     readGrammar();
     readOptions();
+    buildAsset();
 }
 
-YamlDocument::~YamlDocument() {}
+YamlDocument::~YamlDocument() {
+    if (aset != nullptr)
+        delete asset;
+}
 
 YAML::Node YamlDocument::expectKey(YAML::Node node, std::string name) {
     YAML::Node value = node[name];
@@ -106,5 +110,17 @@ void YamlDocument::readGrammar() {
 
 void YamlDocument::readOptions () {
     YAML::Node options = expectMap(expectKey(doc, "options"));
-    startSymbol = identifySymbol(expectString(expectKey(options, "start")));
+    target = identifySymbol(expectString(expectKey(options,
+                                                   "target")));
+}
+
+void YamlDocument::buildAsset() {
+    asset = new Asset(symbols, grammar, target);
+}
+
+void YamlDocument::printAsset() {
+    if (asset != nullptr) {
+        asset->printFirst();
+        asset->printFollow();
+    }
 }

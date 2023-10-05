@@ -10,6 +10,7 @@ class FirstSet {
     public:
         FirstSet();
         void build(std::vector<Symbol>& symbols,
-                    std::vector<Production>& grammar);
+                   std::vector<Production>& grammar);
+        void print(std::vector<Symbol>& symbols);
 };
 #endif

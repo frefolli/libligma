@@ -4,6 +4,7 @@
 #include <yaml-cpp/yaml.h>
 #include <libligma/symbol.hh>
 #include <libligma/production.hh>
+#include <libligma/asset.hh>
 
 class YamlDocument : public Document {
     private:
@@ -18,13 +19,16 @@ class YamlDocument : public Document {
         void readParser();
         void readGrammar();
         void readOptions();
+        void buildAsset();
         
         YAML::Node doc;
         std::vector<Symbol> symbols;
         std::vector<Production> grammar;
-        index_t startSymbol;
+        index_t target;
+        Asset* asset;
     public:
         YamlDocument(std::string filepath);
         ~YamlDocument();
+        void printAsset();
 };
 #endif

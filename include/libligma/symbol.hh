@@ -2,6 +2,8 @@
 #define LIBLIGMA_SYMBOL_HH
 #include <string>
 #include <ostream>
+#include <vector>
+#include <libligma/index_t.hh>
 
 class Symbol {
     private:
@@ -15,4 +17,7 @@ class Symbol {
 };
 
 std::ostream& operator<<(std::ostream& out, Symbol& symbol);
+index_t getStart(std::vector<Symbol>& symbols);
+index_t getEOL(std::vector<Symbol>& symbols);
+index_t getEpilon(std::vector<Symbol>& symbols);
 #endif
