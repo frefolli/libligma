@@ -123,5 +123,7 @@ void YamlDocument::printAsset() {
     if (asset != nullptr) {
         asset->printFirstSet();
         asset->printFollowSet();
+        asset->printCollection();
+        asset->printRecordSet();
     }
 }

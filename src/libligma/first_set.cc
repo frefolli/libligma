@@ -51,3 +51,7 @@ void FirstSet::print(std::vector<Symbol>& symbols) {
         std::cout << "}" << std::endl;
     }
 }
+
+std::set<index_t>& FirstSet::operator[](index_t index) {
+    return set[index];
+}
