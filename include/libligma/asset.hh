@@ -6,6 +6,8 @@
 #include <libligma/first_set.hh>
 #include <libligma/follow_set.hh>
 #include <libligma/record_set.hh>
+#include <libligma/action_set.hh>
+#include <libligma/goto_set.hh>
 #include <libligma/item.hh>
 #include <set>
 
@@ -16,15 +18,18 @@ class Asset {
         FirstSet firstSet;
         FollowSet followSet;
         RecordSet recordSet;
+        ActionSet actionSet;
+        GotoSet gotoSet;
         std::vector<std::set<Item>> collection;
         index_t target;
 
         std::set<Item> buildSetZero();
         std::set<Item> buildClosure(std::set<Item>& set);
         std::vector<index_t> get_prods(index_t left);
-        void buildCollection();
         std::set<index_t> buildNexts(std::set<Item>& set);
         std::set<Item> buildGoto(std::set<Item>& set, index_t next);
+        void buildCollection();
+        void buildActions();
     public:
         Asset(std::vector<Symbol> symbols,
               std::vector<Production> grammar,
@@ -34,6 +39,8 @@ class Asset {
         void printFirstSet();
         void printFollowSet();
         void printRecordSet();
+        void printActionSet();
+        void printGotoSet();
         void printItemSet(std::set<Item>& set);
         void printItem(const Item& item);
         void printCollection();

@@ -46,6 +46,9 @@ libligma = library('libligma', [
     'src/libligma/first_set.cc',
     'src/libligma/follow_set.cc',
     'src/libligma/record_set.cc',
+    'src/libligma/action_set.cc',
+    'src/libligma/action.cc',
+    'src/libligma/goto_set.cc',
     'src/libligma/item.cc',
   ], include_directories : include,
   dependencies: [libyaml_dep, libutils_dep])

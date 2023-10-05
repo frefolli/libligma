@@ -125,5 +125,7 @@ void YamlDocument::printAsset() {
         asset->printFollowSet();
         asset->printCollection();
         asset->printRecordSet();
+        asset->printActionSet();
+        asset->printGotoSet();
     }
 }

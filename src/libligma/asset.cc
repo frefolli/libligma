@@ -25,6 +25,34 @@ void Asset::build() {
     buildCollection();
 }
 
+void Asset::buildActions() {
+    auto eol = getEOL(symbols);
+    actionSet.build();
+    gotoSet.build();
+
+    for (index_t x = 0; x < collection.size(); x++) {
+        auto set = collection[x];
+        for (const Item item : set) {
+            auto prod = item.getProd();
+            auto next = item.getNext();
+            auto look = item.getLook();
+            auto rhs = grammar[prod].getRight();
+            if ((prod == grammar.size()-1) &&
+                    (next == rhs.size()) &&
+                    (look == eol)) {
+                actionSet[std::make_pair(x, eol)] = Action::accept();
+            } else if ((next < rhs.size()) &&
+                        (symbols[next].isTerminal()) &&
+                        recordSet.has(std::make_pair(x, rhs[next]))) {
+                actionSet[std::make_pair(x, rhs[next])] = Action::shift(recordSet[std::make_pair(x, rhs[next])]);
+            } else if (next == rhs.size()) {
+                actionSet[std::make_pair(x, look)] = Action::reduce(prod);
+                //
+            }
+        }
+    }
+}
+
 std::set<index_t> Asset::buildNexts(std::set<Item>& set) {
     std::set<index_t> nexts = {};
     for (auto item : set) {
@@ -163,4 +191,12 @@ void Asset::printCollection() {
         std::cout << "#" << i++ << " : ";
         printItemSet(set);
     }
+}
+
+void Asset::printActionSet() {
+    actionSet.print(symbols);
+}
+
+void Asset::printGotoSet() {
+    gotoSet.print(symbols);
 }
