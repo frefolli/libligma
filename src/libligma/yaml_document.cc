@@ -16,17 +16,10 @@ std::string toString(YAML::Node node) {
 
 YamlDocument::YamlDocument(std::string filepath) :
     Document(filepath) {
-    readFile();
-    readLexer();
-    readParser();
-    readGrammar();
-    readOptions();
-    buildAsset();
+    buildDocument();
 }
 
 YamlDocument::~YamlDocument() {
-    if (asset != nullptr)
-        delete asset;
 }
 
 YAML::Node YamlDocument::expectKey(YAML::Node node, std::string name) {
@@ -80,17 +73,6 @@ void YamlDocument::readParser() {
         std::string symbol = expectString(*it);
         symbols.push_back(Symbol(symbol, false));
     }
-}
-
-index_t YamlDocument::identifySymbol(std::string name) {
-    auto it = std::find_if(symbols.begin(),
-                        symbols.end(),
-                        [&name](Symbol& symbol) {
-                            return symbol.getName() == name;
-    });
-    if (it == symbols.end())
-        throw std::runtime_error("in \"" + filepath + "\", undefined symbol: " + name);
-    return std::distance(symbols.begin(), it);
 }
 
 void YamlDocument::readGrammar() {

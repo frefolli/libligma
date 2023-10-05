@@ -2,6 +2,7 @@
 #include <libutils/sets.hh>
 #include <libutils/deques.hh>
 #include <libutils/vectors.hh>
+#include <iostream>
 
 Asset::Asset(std::vector<Symbol> symbols,
              std::vector<Production> grammar,

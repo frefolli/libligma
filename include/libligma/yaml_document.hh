@@ -12,8 +12,7 @@ class YamlDocument : public Document {
         YAML::Node expectSequence(YAML::Node node);
         YAML::Node expectMap(YAML::Node node);
         std::string expectString(YAML::Node node);
-        index_t identifySymbol(std::string name);
-        
+    protected:
         void readFile();
         void readLexer();
         void readParser();
@@ -22,10 +21,6 @@ class YamlDocument : public Document {
         void buildAsset();
         
         YAML::Node doc;
-        std::vector<Symbol> symbols;
-        std::vector<Production> grammar;
-        index_t target;
-        Asset* asset;
     public:
         YamlDocument(std::string filepath);
         ~YamlDocument();

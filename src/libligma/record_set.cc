@@ -1,5 +1,6 @@
 #include <libligma/record_set.hh>
 #include <libutils/maps.hh>
+#include <sstream>
 
 RecordSet::RecordSet() {}
 
