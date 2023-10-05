@@ -27,7 +27,7 @@ class Asset {
         std::set<Item> buildClosure(std::set<Item>& set);
         std::vector<index_t> get_prods(index_t left);
         std::set<index_t> buildNexts(std::set<Item>& set);
-        std::set<Item> buildGoto(std::set<Item>& set, index_t next);
+        std::set<Item> buildNextItemSet(std::set<Item>& set, index_t next);
         void buildCollection();
         void buildActions();
     public:
@@ -36,13 +36,5 @@ class Asset {
               index_t target);
 
         void build();
-        void printFirstSet();
-        void printFollowSet();
-        void printRecordSet();
-        void printActionSet();
-        void printGotoSet();
-        void printItemSet(std::set<Item>& set);
-        void printItem(const Item& item);
-        void printCollection();
 };
 #endif

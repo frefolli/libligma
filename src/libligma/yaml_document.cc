@@ -118,14 +118,3 @@ void YamlDocument::buildAsset() {
     asset = new Asset(symbols, grammar, target);
     asset->build();
 }
-
-void YamlDocument::printAsset() {
-    if (asset != nullptr) {
-        asset->printFirstSet();
-        asset->printFollowSet();
-        asset->printCollection();
-        asset->printRecordSet();
-        asset->printActionSet();
-        asset->printGotoSet();
-    }
-}

@@ -7,6 +7,5 @@ class Document {
     public:
         Document(std::string filepath);
         virtual ~Document();
-        virtual void printAsset() = 0;
 };
 #endif

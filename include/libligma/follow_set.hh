@@ -13,7 +13,6 @@ class FollowSet {
         void build(std::vector<Symbol>& symbols,
                    std::vector<Production>& grammar,
                    FirstSet& firstSet);
-        void print(std::vector<Symbol>& symbols);
         std::set<index_t>& operator[](index_t index);
 };
 #endif

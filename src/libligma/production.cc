@@ -12,8 +12,3 @@ index_t Production::getLeft() {
 std::vector<index_t>& Production::getRight() {
     return right;
 }
-
-std::ostream& operator<<(std::ostream& out, Production& production) {
-    out << production.getLeft() << " --> " << production.getRight();
-    return out;
-}

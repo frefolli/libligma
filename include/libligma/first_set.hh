@@ -11,7 +11,6 @@ class FirstSet {
         FirstSet();
         void build(std::vector<Symbol>& symbols,
                    std::vector<Production>& grammar);
-        void print(std::vector<Symbol>& symbols);
         std::set<index_t>& operator[](index_t index);
 };
 #endif

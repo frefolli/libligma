@@ -38,8 +38,3 @@ bool Item::operator==(const Item& other) const {
 bool Item::operator>(const Item& other) const {
     return other < *this;
 }
-
-std::ostream& operator<<(std::ostream& out, const Item& item)  {
-    out << "[" << item.getProd() << ", " << item.getNext() << ", " << item.getLook() << "]";
-    return out;
-}

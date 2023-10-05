@@ -1,6 +1,5 @@
 #include <libligma/first_set.hh>
 #include <libutils/sets.hh>
-#include <iostream>
 
 FirstSet::FirstSet() {}
 
@@ -36,19 +35,6 @@ void FirstSet::build(std::vector<Symbol>& symbols,
                 changed |= set_union(set[A], {epsilon});
             }
         }
-    }
-}
-
-void FirstSet::print(std::vector<Symbol>& symbols) {
-    for (index_t i = 0; i < symbols.size(); i++) {
-        std::cout << "FIRST[\"" << symbols[i].getName() << "\"] = {";
-        for (auto sIt = set[i].begin(); sIt != set[i].end(); sIt++) {
-            if (sIt != set[i].begin()) {
-                std::cout << ", ";
-            }
-            std::cout << "\"" << symbols[*sIt].getName() << "\"";
-        }
-        std::cout << "}" << std::endl;
     }
 }
 

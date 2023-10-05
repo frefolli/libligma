@@ -1,7 +1,6 @@
 #ifndef LIBLIGMA_ITEM_HH
 #define LIBLIGMA_ITEM_HH
 #include <libligma/index_t.hh>
-#include <iostream>
 
 class Item {
     private:
@@ -19,6 +18,4 @@ class Item {
         bool operator==(const Item& other) const;
         bool operator>(const Item& other) const;
 };
-
-std::ostream& operator<<(std::ostream& out, const Item& item);
 #endif

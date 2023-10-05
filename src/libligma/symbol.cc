@@ -12,11 +12,6 @@ bool Symbol::isTerminal() {
     return terminality;
 }
 
-std::ostream& operator<<(std::ostream& out, Symbol& symbol) {
-    out << symbol.getName();
-    return out;
-}
-
 index_t getStart(std::vector<Symbol>& symbols) {
     return (symbols.size() - 3);
 }

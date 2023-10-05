@@ -18,6 +18,5 @@ int main(int argc, char**args) {
     Document* document = new YamlDocument(
             "grammar.yml"
     );
-    document->printAsset();
     delete document;
 }

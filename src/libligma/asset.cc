@@ -2,7 +2,6 @@
 #include <libutils/sets.hh>
 #include <libutils/deques.hh>
 #include <libutils/vectors.hh>
-#include <iostream>
 
 Asset::Asset(std::vector<Symbol> symbols,
              std::vector<Production> grammar,
@@ -23,6 +22,9 @@ void Asset::build() {
 
     // Build collection (set zero + closures)
     buildCollection();
+
+    // Build ACTION and GOTO sets
+    buildActions();
 }
 
 void Asset::buildActions() {
@@ -47,7 +49,12 @@ void Asset::buildActions() {
                 actionSet[std::make_pair(x, rhs[next])] = Action::shift(recordSet[std::make_pair(x, rhs[next])]);
             } else if (next == rhs.size()) {
                 actionSet[std::make_pair(x, look)] = Action::reduce(prod);
-                //
+            }
+        }
+        for (index_t n = 0; n < symbols.size(); n++) {
+            if (!(symbols[n].isTerminal()) &&
+                  recordSet.has(std::make_pair(x, n))) {
+                gotoSet[std::make_pair(x, n)] = recordSet[std::make_pair(x, n)];
             }
         }
     }
@@ -65,7 +72,7 @@ std::set<index_t> Asset::buildNexts(std::set<Item>& set) {
     return nexts;
 }
 
-std::set<Item> Asset::buildGoto(std::set<Item>& set, index_t next) {
+std::set<Item> Asset::buildNextItemSet(std::set<Item>& set, index_t next) {
     std::set<Item> result = {};
     for (auto item : set) {
         auto prod = grammar[item.getProd()];
@@ -94,7 +101,7 @@ void Asset::buildCollection() {
         collection.push_back(set);
         index_t k = j + 1;
         for (auto next : buildNexts(set)) {
-            auto nset = buildGoto(set, next);
+            auto nset = buildNextItemSet(set, next);
             index_t i = vector_index(collection, nset);
             if (i == k) {
                 i = deque_index(deque, nset);
@@ -106,18 +113,6 @@ void Asset::buildCollection() {
             recordSet[std::make_pair(j, next)] = i;
         }
     }
-}
-
-void Asset::printFirstSet() {
-    firstSet.print(symbols);
-}
-
-void Asset::printFollowSet() {
-    followSet.print(symbols);
-}
-
-void Asset::printRecordSet() {
-    recordSet.print(symbols);
 }
 
 std::set<Item> Asset::buildClosure(std::set<Item>& set) {
@@ -152,51 +147,4 @@ std::vector<index_t> Asset::get_prods(index_t left) {
         }
     }
     return result;
-}
-
-void Asset::printItem(const Item& item) {
-    index_t prod = item.getProd();
-    index_t next = item.getNext();
-    index_t left = grammar[prod].getLeft();
-    std::vector<index_t> right = grammar[prod].getRight();
-    index_t lookahead = item.getLook();
-    std::cout << "- " << symbols[left].getName() << " ->";
-    for (index_t i = 0; i < right.size(); i++) {
-        if (i == next) {
-            std::cout << " •";
-        }
-        std::cout << " " << symbols[right[i]].getName();
-    }
-    if (next == right.size()) {
-        std::cout << " *";
-    }
-    std::cout << ", " << symbols[lookahead].getName() << std::endl;
-}
-
-void Asset::printItemSet(std::set<Item>& set) {
-    if (set.size() == 0) {
-        std::cout << "{}" << std::endl;
-        return;
-    }
-    std::cout << "{" << std::endl;
-    for (auto it = set.begin(); it != set.end(); ++it) {
-        printItem(*it);
-    }
-    std::cout << "}" << std::endl;
-}
-
-void Asset::printCollection() {
-    index_t i = 0;
-    for (auto set : collection) {
-        std::cout << "#" << i++ << " : ";
-        printItemSet(set);
-    }
-}
-
-void Asset::printActionSet() {
-    actionSet.print(symbols);
-}
-
-void Asset::printGotoSet() {
-    gotoSet.print(symbols);
 }

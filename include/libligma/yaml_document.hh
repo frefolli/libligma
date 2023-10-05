@@ -29,6 +29,5 @@ class YamlDocument : public Document {
     public:
         YamlDocument(std::string filepath);
         ~YamlDocument();
-        void printAsset();
 };
 #endif
