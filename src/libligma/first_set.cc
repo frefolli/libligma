@@ -28,6 +28,7 @@ void FirstSet::build(std::vector<Symbol>& symbols,
                 changed |= set_union(set[A],
                                      set_diff(set[Bs[i+1]],
                                               {epsilon}));
+                i += 1;
             }
 
             if ((i == Bs.size()) &&
